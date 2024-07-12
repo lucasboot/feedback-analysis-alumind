@@ -2,3 +2,8 @@ langchain
 openai
 langchain-google-genai 
 mysql-connector-python
+flask
+flask_sqlalchemy
+flask_migrate
+flask_cors
+python-dotenv

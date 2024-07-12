@@ -26,7 +26,10 @@ Feedback: {text}
 
 Sentimento:
 Melhorias e códigos:
+- {code}: {reason}
 """
+
+
 
 # Criação do template do prompt
 prompt = PromptTemplate(

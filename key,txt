@@ -1,1 +1,3 @@
 GEMINI = AIzaSyBtQcjVG6D-44gaVZrCgVeOeG83ojmO-gs
+
+os.environ["OPENAI_API_KEY"] = 'sk-proj-vZyvSSkuVfxpNgY71WSJT3BlbkFJUwGLxANEwQPcs0iRL1MK'
