@@ -1,7 +1,9 @@
 from flask import Blueprint, request, jsonify
-from app.models import Feedback
+from app.models import Feedback, Sentiment
 from app.utils.database import get_db_connection
 from app.services.feedback_service import analyze_sentiment
+from app.services.database_service import add_sentiment, add_features
+
 import uuid
 import json
 
@@ -10,28 +12,34 @@ feedback_routes = Blueprint('feedback_routes', __name__)
 
 @feedback_routes.route('/feedbacks', methods=['POST'])
 def create_feedback():
-    data = request.json
-    feedback = Feedback(feedback_id=data['id'], feedback=data['feedback'])
-    
-   
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    
-    analysis = analyze_sentiment(feedback.feedback)
+
+    feedback_text = request.json['feedback']
+    feedback_id = request.json['id']
+
+    # Análise do sentimento
+    analysis = analyze_sentiment(feedback_text)
     response_json = json.loads(analysis)
-    response_json = {
-        "id": feedback.feedback_id,
-        "sentiment": response_json["sentiment"],
-        "requested_features": response_json["requested_features"]
-    }
-
-    cursor.close()
-    conn.close()
     
-    return json.dumps(response_json, indent=2), 201
+    sentiment = Sentiment(feedback_id, response_json["sentiment"])
+    requested_features = response_json['requested_features']
+
+   # Operações no banco de dados
+    add_sentiment(sentiment)
+    add_features(requested_features)
+
+    
+    response_json = {
+        "id": feedback_id,
+        "sentiment": sentiment.sentiment,
+        "requested_features": requested_features
+    }
+    return jsonify(response_json), 201
 
 
-# No intuito de simular a ingestão de dados no banco, uma rota auxiliar, que não faz parte dos requisitos da aplicação, foi criada
+'''
+No intuito de simular a ingestão de dados no banco, uma rota auxiliar, que não 
+faz parte dos requisitos da aplicação, foi criada.
+'''
 @feedback_routes.route('/feedbacks_ingestion', methods=['POST'])
 def data_ingestion():
     data = request.json

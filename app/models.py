@@ -6,8 +6,8 @@ class Feedback:
         self.feedback = feedback
 
 class Sentiment:
-    def __init__(self, sentiment_id: str, sentiment: str):
-        self.sentiment_id = sentiment_id
+    def __init__(self, feedback_id: str, sentiment: str):
+        self.feedback_id = feedback_id
         self.sentiment = sentiment
 
 class Reason:

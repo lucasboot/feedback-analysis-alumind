@@ -26,7 +26,7 @@ CREATE TABLE reasons (
 -- Tabela codes
 CREATE TABLE codes (
     code_id CHAR(36) NOT NULL,
-    code VARCHAR(40) NOT NULL,
+    code VARCHAR(40) NOT NULL UNIQUE,
     PRIMARY KEY (code_id)
 );
 

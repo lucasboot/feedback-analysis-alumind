@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="R2lEEEUBdFMjLlhIrx00" name="Coleções">
-        <mxGraphModel dx="742" dy="226" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0" extFonts="Permanent Marker^https://fonts.googleapis.com/css?family=Permanent+Marker">
+        <mxGraphModel dx="954" dy="250" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0" extFonts="Permanent Marker^https://fonts.googleapis.com/css?family=Permanent+Marker">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -108,7 +108,7 @@
                     <mxGeometry x="190" y="150" width="37.5" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="gj2lXpzM98NcvxzfUCaw-4" value="sentiments_codes" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fontSize=20;fontColor=#ffffff;fillColor=#1ba1e2;strokeColor=#006EAF;rounded=1;shadow=1;" parent="1" vertex="1">
-                    <mxGeometry x="110" y="710" width="250" height="110" as="geometry"/>
+                    <mxGeometry x="150" y="710" width="250" height="110" as="geometry"/>
                 </mxCell>
                 <mxCell id="gj2lXpzM98NcvxzfUCaw-5" value="" style="shape=partialRectangle;collapsible=0;dropTarget=0;pointerEvents=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" parent="gj2lXpzM98NcvxzfUCaw-4" vertex="1">
                     <mxGeometry y="30" width="250" height="80" as="geometry"/>
@@ -123,17 +123,17 @@
                         <mxRectangle width="80" height="80" as="alternateBounds"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="gj2lXpzM98NcvxzfUCaw-8" value="sentiment_id" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="110" y="740" width="170" height="30" as="geometry"/>
+                <mxCell id="gj2lXpzM98NcvxzfUCaw-8" value="feedback_id" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="740" width="170" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="gj2lXpzM98NcvxzfUCaw-9" value="UUID" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="280" y="740" width="80" height="30" as="geometry"/>
+                    <mxGeometry x="320" y="740" width="80" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="gj2lXpzM98NcvxzfUCaw-10" value="code_id" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="110" y="770" width="170" height="30" as="geometry"/>
+                    <mxGeometry x="150" y="770" width="170" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="gj2lXpzM98NcvxzfUCaw-11" value="UUID" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="280" y="770" width="80" height="30" as="geometry"/>
+                    <mxGeometry x="320" y="770" width="80" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="gj2lXpzM98NcvxzfUCaw-12" value="reasons" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;fontSize=20;fontColor=#ffffff;fillColor=#1ba1e2;strokeColor=#006EAF;rounded=1;shadow=1;" parent="1" vertex="1">
                     <mxGeometry x="150" y="450" width="250" height="110" as="geometry"/>
