@@ -5,7 +5,7 @@ VALUES
     (UUID_SHORT(), 'Feedback negativo'),
     (UUID_SHORT(), 'Feedback neutro');
 
-INSERT INTO sentiments (sentiment_id, sentiment)
+INSERT INTO sentiments (feedback_id, sentiment)
 VALUES
     (UUID_SHORT(), 'POSITIVO'),
     (UUID_SHORT(), 'NEGATIVO'),
@@ -23,11 +23,6 @@ VALUES
     (UUID_SHORT(), 'Code B'),
     (UUID_SHORT(), 'Code C');
 
-INSERT INTO feedbacks_sentiments (feedback_id, sentiment_id)
-VALUES
-    (UUID_SHORT(), UUID_SHORT()),
-    (UUID_SHORT(), UUID_SHORT()),
-    (UUID_SHORT(), UUID_SHORT());
 
 INSERT INTO sentiments_codes (sentiment_id, code_id)
 VALUES

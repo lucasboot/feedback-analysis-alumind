@@ -11,9 +11,9 @@ CREATE TABLE feedbacks (
 
 -- Tabela sentiments
 CREATE TABLE sentiments (
-    sentiment_id CHAR(36) NOT NULL,
+    feedback_id CHAR(36) NOT NULL,
     sentiment VARCHAR(20) NOT NULL,
-    PRIMARY KEY (sentiment_id)
+    PRIMARY KEY (feedback_id)
 );
 
 -- Tabela reasons
@@ -30,21 +30,13 @@ CREATE TABLE codes (
     PRIMARY KEY (code_id)
 );
 
--- Tabela feedbacks_sentiments (relacionamento 1:1)
-CREATE TABLE feedbacks_sentiments (
-    feedback_id CHAR(36) NOT NULL,
-    sentiment_id CHAR(36) NOT NULL,
-    PRIMARY KEY (feedback_id, sentiment_id),
-    FOREIGN KEY (feedback_id) REFERENCES feedbacks(feedback_id),
-    FOREIGN KEY (sentiment_id) REFERENCES sentiments(sentiment_id)
-);
 
 -- Tabela sentiments_codes (relacionamento 1:N)
 CREATE TABLE sentiments_codes (
-    sentiment_id CHAR(36) NOT NULL,
+    feedback_id CHAR(36) NOT NULL,
     code_id CHAR(36) NOT NULL,
-    PRIMARY KEY (sentiment_id, code_id),
-    FOREIGN KEY (sentiment_id) REFERENCES sentiments(sentiment_id),
+    PRIMARY KEY (feedback_id, code_id),
+    FOREIGN KEY (feedback_id) REFERENCES sentiments(feedback_id),
     FOREIGN KEY (code_id) REFERENCES codes(code_id)
 );
 

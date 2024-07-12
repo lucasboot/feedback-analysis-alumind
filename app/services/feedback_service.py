@@ -1,7 +1,6 @@
 from langchain_google_genai import GoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
-import re
 import os
 
 PROMPT_TEMPLATE_TEXT2 = """
@@ -46,7 +45,6 @@ llm_gemini = GoogleGenerativeAI(
     top_p=0.5,
 )
 chain = LLMChain(llm=llm_gemini, prompt=prompt)    
-
 
 
 def analyze_sentiment(text):
