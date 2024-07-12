@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.models import Feedback, Sentiment
 from app.utils.database import get_db_connection
 from app.services.feedback_service import analyze_sentiment
-from app.services.database_service import add_sentiment, add_features
+from app.services.database_service import add_sentiment, add_features_reasons
 
 import uuid
 import json
@@ -25,7 +25,7 @@ def create_feedback():
 
    # Operações no banco de dados
     add_sentiment(sentiment)
-    add_features(requested_features)
+    add_features_reasons(requested_features, sentiment.feedback_id)
 
     
     response_json = {
