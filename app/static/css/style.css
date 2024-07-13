@@ -32,12 +32,20 @@ th, td {
 
 
 .custom-btn {
-    background-color: #031C42; /* Cor de fundo do botão */
-    color: #AEB3C0; /* Cor do texto */
-    border: none; /* Remove a borda padrão */
+    background-color: #031C42; 
+    color: #AEB3C0; 
+    border: none; 
 }
 
 .custom-btn:hover {
-    background-color: #001637; /* Cor de fundo ao passar o mouse */
-    color: #AEB3C0; /* Cor do texto ao passar o mouse */
+    background-color: #001637; 
+    color: #AEB3C0; 
+}
+
+.table-responsive {
+    margin: 0 auto; 
+}
+
+.table td, .table th {
+    text-align: center; 
 }

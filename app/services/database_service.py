@@ -83,3 +83,73 @@ def add_features_reasons(requested_features, feedback_id):
     finally:
         cursor.close()
         conn.close()
+
+
+
+def get_top_features():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Consulta para contar o número de ocorrências de cada code_id
+        query = """
+        SELECT code.code_id, code.code, COUNT(*) AS count
+        FROM codes AS code
+        JOIN sentiments_codes AS sc ON code.code_id = sc.code_id
+        GROUP BY code.code_id, code.code
+        ORDER BY count DESC
+        LIMIT 10
+        """
+        cursor.execute(query)
+
+        # Coletar os resultados
+        results = cursor.fetchall()
+
+        # Formatar os resultados no formato desejado
+        top_features = []
+        for row in results:
+            code_id, code_name, count = row
+            top_features.append({
+                'code_id': code_id,
+                'code_name': code_name,
+                'count': count
+            })
+
+        return top_features
+        
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        raise
+    finally:
+        cursor.close()
+        conn.close()
+
+
+
+def get_sentiment_distribution():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        query = """
+        SELECT sentiment, COUNT(*) AS count
+        FROM sentiments
+        GROUP BY sentiment
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+        
+        # Formatar os resultados no formato desejado
+        sentiment_counts = {}
+        for row in results:
+            sentiment, count = row
+            sentiment_counts[sentiment] = count
+        
+        return sentiment_counts
+        
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        raise
+    finally:
+        cursor.close()
+        conn.close()

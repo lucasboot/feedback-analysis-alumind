@@ -17,37 +17,39 @@
         
         <section>
             <h2 class="my-4">Tabela de Feedbacks</h2>
-            <table class="table table-striped" id="feedbackTable">
-                <thead class="thead-dark">
-                    <tr>
-                        <th></th> 
-                        <th>ID</th>
-                        <th>Feedback</th>
-                        <th class="text-center">Status</th>
-                    </tr>
-                </thead>
-                <tbody id="feedbackTableBody">
-                    {% for feedback in feedbacks %}
+            <div class="table-responsive text-center"></div>
+                <table class="table table-striped mx-auto" id="feedbackTable">
+                    <thead class="thead-dark">
                         <tr>
-                            <td class="text-center align-middle">
-                            <a href="{{ url_for('pages_routes.feedback_detail', feedback_id=feedback.feedback_id) }}" 
-                                class="btn custom-btn btn-sm" 
-                                title="Ver detalhes"
-                                target="_blank">
-                                Mais detalhes
-                             </a>
-                                
-                                
-                            </td>
-                            <td>{{ feedback.feedback_id }}</td>
-                            <td>{{ feedback.feedback }}</td>
-                            <td class="text-center align-middle">
-                                <span class="status-circle {{ feedback.status }}" title="{{ 'Feedback analisado' if feedback.status == 'green' else 'Feedback ainda não analisado' }}"></span>
-                            </td>
+                            <th></th> 
+                            <th>ID</th>
+                            <th>Feedback</th>
+                            <th class="text-center">Status</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody id="feedbackTableBody">
+                        {% for feedback in feedbacks %}
+                            <tr>
+                                <td class="text-center align-middle">
+                                <a href="{{ url_for('pages_routes.feedback_detail', feedback_id=feedback.feedback_id) }}" 
+                                    class="btn custom-btn btn-sm" 
+                                    title="Ver detalhes"
+                                    target="_blank">
+                                    Mais detalhes
+                                </a>
+                                    
+                                    
+                                </td>
+                                <td>{{ feedback.feedback_id }}</td>
+                                <td>{{ feedback.feedback }}</td>
+                                <td class="text-center align-middle">
+                                    <span class="status-circle {{ feedback.status }}" title="{{ 'Feedback analisado' if feedback.status == 'green' else 'Feedback ainda não analisado' }}"></span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             <nav>
                 <ul class="pagination justify-content-center" id="pagination">
                     <!-- Paginação será gerada pelo JavaScript -->
@@ -56,12 +58,12 @@
         </section>
 
         <section>
-            <h2 class="my-4">Sentiment Distribution</h2>
+            <h2 class="my-4">Distribuição de Sentimentos</h2>
             <div id="sentimentChart"></div>
         </section>
 
         <section>
-            <h2 class="my-4">Requested Features</h2>
+            <h2 class="my-4">10 Features mais pedidas</h2>
             <div id="featuresChart"></div>
         </section>
     </div>
@@ -82,8 +84,15 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="feedbackDetails">
-                <!-- Detalhes do feedback serão inseridos aqui -->
+            <div class="modal-body">
+                <div id="spinner" class="text-center my-4">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Carregando...</span>
+                    </div>
+                </div>
+                <div id="feedbackDetails" style="display: none;">
+                    <!-- Detalhes do feedback serão inseridos aqui -->
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -91,6 +100,7 @@
         </div>
     </div>
 </div>
+
 
   
   

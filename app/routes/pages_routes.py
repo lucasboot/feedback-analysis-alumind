@@ -1,13 +1,11 @@
 from flask import Blueprint, jsonify, render_template
 from app.utils.database import get_db_connection
-
+from app.services.database_service import get_sentiment_distribution, get_top_features
 pages_routes = Blueprint('pages_routes', __name__)
 
 
 @pages_routes.route('/report')
 def report():
-    # pegar os dados para passar
-    # feedbacks = get_all_feedbacks() 
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT feedback_id, feedback FROM feedbacks")
@@ -19,8 +17,6 @@ def report():
 
 @pages_routes.route('/simulation')
 def simulation():
-    # pegar os dados para passar
-    # feedbacks = get_all_feedbacks()
     return render_template('simulation.html')
 
 @pages_routes.route('/feedback/<feedback_id>')
@@ -78,12 +74,20 @@ def feedback_detail(feedback_id):
     return jsonify(feedback_details)
 
 
+@pages_routes.route('/sentiment_distribution')
+def sentiment_distribution():
+    # Supondo que get_sentiment_distribution retorne um dicionário com a contagem de sentimentos
+    sentiment_data = get_sentiment_distribution()  # {'POSITIVO': 30, 'NEGATIVO': 15, 'INCONCLUSIVO': 5}
+    return jsonify(sentiment_data)
 
-
-
-
-
-
+@pages_routes.route('/top-features', methods=['GET'])
+def top_features():
+    try:
+        features = get_top_features()
+        print(jsonify(features))
+        return jsonify(features)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 def transform_feedbacks(feedbacks, cursor):
     transformed_feedbacks = []
