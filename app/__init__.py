@@ -8,6 +8,8 @@ def create_app(config_name):
     CORS(app)
 
     from .routes.feedback_routes import feedback_routes
+    from .routes.pages_routes import pages_routes
     app.register_blueprint(feedback_routes)
+    app.register_blueprint(pages_routes)
 
     return app

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Relatório</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Feedback</th>
+                <th>Sentiment</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for feedback in feedbacks %}
+                <tr>
+                    <td>{{ feedback.feedback_id }}</td>
+                    <td>{{ feedback.feedback }}</td>
+                    <td>{{ feedback.sentiment }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Sentiment Distribution</h2>
+    <canvas id="sentimentChart"></canvas>
+
+    <h2>Requested Features</h2>
+    <canvas id="featuresChart"></canvas>
+
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script>
+        // const feedbacks = {{ feedbacks | tojson }};
+        // renderCharts(feedbacks);
+    </script>
+</body>
+</html>
