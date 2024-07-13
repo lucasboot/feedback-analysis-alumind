@@ -2,7 +2,8 @@ from flask import Blueprint, request, jsonify
 from app.models import Feedback, Sentiment
 from app.utils.database import get_db_connection
 from app.services.feedback_service import analyze_sentiment
-from app.services.database_service import add_sentiment, add_features_reasons
+from app.services.database_service import add_sentiment, add_features_reasons, feedback_exists
+from app.utils.sending_simulation import send_feedbacks_to_route
 
 import uuid
 import json
@@ -16,6 +17,11 @@ def create_feedback():
     feedback_text = request.json['feedback']
     feedback_id = request.json['id']
 
+   
+    if (feedback_exists(feedback_id)):
+        return jsonify({
+        "message": "Este feedback já tem uma análise de sentimento feita"
+        }), 304
     # Análise do sentimento
     analysis = analyze_sentiment(feedback_text)
     response_json = json.loads(analysis)
@@ -61,5 +67,16 @@ def data_ingestion():
     conn.commit()    
     cursor.close()
     conn.close()
-    
     return jsonify({"message": "Feedbacks inserted successfully"}), 201
+
+'''
+Rota criada para interagir com o template de simulação de envio dos feedbacks por outra equipe de dev
+'''
+@feedback_routes.route('/run_script', methods=['POST'])
+def run_script():
+    result = send_feedbacks_to_route()
+    if "Error" in result:
+        return jsonify({"message": result}), 500
+    return jsonify({"message": result}), 200
+    
+    

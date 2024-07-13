@@ -8,3 +8,9 @@ def report():
     # pegar os dados para passar
     # feedbacks = get_all_feedbacks()  
     return render_template('report.html', feedbacks=[])
+
+@pages_routes.route('/simulation')
+def simulation():
+    # pegar os dados para passar
+    # feedbacks = get_all_feedbacks()  
+    return render_template('simulation.html')
