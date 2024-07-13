@@ -57,7 +57,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const sentimentData = {
             labels: labels,
             values: values,
-            type: 'pie'
+            type: 'pie',
+            marker: {
+                colors: ["#DAA520","#B22222","#00FF7F" ]
+            }
         };
 
         Plotly.newPlot('sentimentChart', [sentimentData], {

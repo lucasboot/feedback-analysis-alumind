@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.models import Feedback, Sentiment
 from app.utils.database import get_db_connection
 from app.services.feedback_service import analyze_sentiment
-from app.services.database_service import add_sentiment, add_features_reasons, feedback_exists
+from app.services.database_service import add_sentiment, add_features_reasons, feedback_exists, get_sentiment_distribution, get_top_features, get_top_weekly_features, get_weekly_feedback_summary
 from app.utils.sending_simulation import send_feedbacks_to_route
 
 import uuid
@@ -79,4 +79,24 @@ def run_script():
         return jsonify({"message": result}), 500
     return jsonify({"message": result}), 200
     
+@feedback_routes.route('/generate_weekly_report', methods=['GET'])
+def generate_weekly_report():
+    sentiment_count = get_sentiment_distribution()
+    top_features = get_top_weekly_features()
+    total_feedbacks = sum(sentiment_count.values())
     
+    # Transformação de Dados
+    sentiment_percentage = {
+        sentiment: round((count / total_feedbacks) * 100, 2)
+        for sentiment, count in sentiment_count.items()
+    } 
+    if 'INCONCLUSIVO' in sentiment_percentage:
+        del sentiment_percentage['INCONCLUSIVO']
+
+
+
+    report = {
+        'sentiment_distribution': sentiment_percentage,
+        'top_features': top_features
+    }
+    return jsonify(report)
