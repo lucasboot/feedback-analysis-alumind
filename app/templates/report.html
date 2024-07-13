@@ -4,40 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feedback Report</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
 <body>
-    <h1>Feedback Report</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Feedback</th>
-                <th>Sentiment</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for feedback in feedbacks %}
-                <tr>
-                    <td>{{ feedback.feedback_id }}</td>
-                    <td>{{ feedback.feedback }}</td>
-                    <td>{{ feedback.sentiment }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="container">
+        <header class="my-4">
+            <h1 class="text-center">Alumind - Relatório</h1>
+        </header>
+        
+        <section>
+            <h2 class="my-4">Tabela de Feedbacks</h2>
+            <table class="table table-striped" id="feedbackTable">
+                <thead class="thead-dark">
+                    <tr>
+                        <th></th> 
+                        <th>ID</th>
+                        <th>Feedback</th>
+                        <th class="text-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="feedbackTableBody">
+                    {% for feedback in feedbacks %}
+                        <tr>
+                            <td class="text-center align-middle">
+                            <a href="{{ url_for('pages_routes.feedback_detail', feedback_id=feedback.feedback_id) }}" 
+                                class="btn custom-btn btn-sm" 
+                                title="Ver detalhes"
+                                target="_blank">
+                                Mais detalhes
+                             </a>
+                                
+                                
+                            </td>
+                            <td>{{ feedback.feedback_id }}</td>
+                            <td>{{ feedback.feedback }}</td>
+                            <td class="text-center align-middle">
+                                <span class="status-circle {{ feedback.status }}" title="{{ 'Feedback analisado' if feedback.status == 'green' else 'Feedback ainda não analisado' }}"></span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <nav>
+                <ul class="pagination justify-content-center" id="pagination">
+                    <!-- Paginação será gerada pelo JavaScript -->
+                </ul>
+            </nav>
+        </section>
 
-    <h2>Sentiment Distribution</h2>
-    <canvas id="sentimentChart"></canvas>
+        <section>
+            <h2 class="my-4">Sentiment Distribution</h2>
+            <div id="sentimentChart"></div>
+        </section>
 
-    <h2>Requested Features</h2>
-    <canvas id="featuresChart"></canvas>
+        <section>
+            <h2 class="my-4">Requested Features</h2>
+            <div id="featuresChart"></div>
+        </section>
+    </div>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    <script>
-        // const feedbacks = {{ feedbacks | tojson }};
-        // renderCharts(feedbacks);
-    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>const feedbackData = {{ feedbacks | tojson }};</script>
+
+
+<!-- Modal HTML -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="feedbackModalLabel">Detalhes do Feedback</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="feedbackDetails">
+                <!-- Detalhes do feedback serão inseridos aqui -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+  
+  
+
+
 </body>
+
 </html>

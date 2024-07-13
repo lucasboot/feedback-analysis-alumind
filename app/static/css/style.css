@@ -10,10 +10,34 @@ table {
 }
 
 table, th, td {
-    border: 1px solid black;
+    border: 1px solid #031C42;
 }
 
 th, td {
     padding: 10px;
     text-align: left;
+}
+.status-circle {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.green {
+    background-color: green;
+}
+.red {
+    background-color: red;
+}
+
+
+.custom-btn {
+    background-color: #031C42; /* Cor de fundo do botão */
+    color: #AEB3C0; /* Cor do texto */
+    border: none; /* Remove a borda padrão */
+}
+
+.custom-btn:hover {
+    background-color: #001637; /* Cor de fundo ao passar o mouse */
+    color: #AEB3C0; /* Cor do texto ao passar o mouse */
 }
