@@ -5,7 +5,7 @@ USE alumind_db;
 -- Tabela feedbacks
 CREATE TABLE feedbacks (
     feedback_id CHAR(36) NOT NULL,
-    feedback VARCHAR(400) NOT NULL,
+    feedback VARCHAR(800) NOT NULL,
     PRIMARY KEY (feedback_id)
 );
 
@@ -19,7 +19,7 @@ CREATE TABLE sentiments (
 -- Tabela reasons
 CREATE TABLE reasons (
     reason_id CHAR(36) NOT NULL,
-    reason VARCHAR(200) NOT NULL,
+    reason VARCHAR(400) NOT NULL,
     PRIMARY KEY (reason_id)
 );
 

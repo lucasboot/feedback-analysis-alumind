@@ -1,3 +1,66 @@
+
+body {
+    background: #f0f0f0; 
+    background-color: #264653;
+    background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
+   }
+
+.container {
+    background: rgba(255, 255, 255, 0.9); 
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.h2-white-bg {
+    background-color: white;
+    padding: 5px 10px;
+    display: inline-block;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adiciona uma leve sombra para destaque */
+}
+
+@keyframes gradient-text {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.btn-light {
+    color: #000;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.btn-light:hover {
+    color: #000;
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+}
+
+.fas.fa-filter {
+    margin-left: 5px;
+}
+
+
+.h1-animated {
+    background: linear-gradient(270deg, #E9C46A, #2A9D8F, #264653);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-text 5s ease infinite;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+
+
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
@@ -32,13 +95,13 @@ th, td {
 
 
 .custom-btn {
-    background-color: #031C42; 
-    color: #AEB3C0; 
+    background-color: #264653; 
+    color: whitesmoke; 
     border: none; 
 }
 
 .custom-btn:hover {
-    background-color: #001637; 
+    background-color: #2A9D8F; 
     color: #AEB3C0; 
 }
 
@@ -48,4 +111,32 @@ th, td {
 
 .table td, .table th {
     text-align: center; 
+}
+
+.thead-custom{
+    background-color:#264653;
+    color: whitesmoke;
+}
+/* Estilo para os itens de paginação */
+.pagination-custom .page-item .page-link {
+    background-color: #264653; /* Cor de fundo personalizada */
+    color: #fff; /* Cor do texto */
+    border: 1px solid #264653; /* Borda da cor de fundo */
+}
+
+.pagination-custom .page-item.active .page-link {
+    background-color: #2A9D8F; /* Cor de fundo para o item ativo */
+    border-color: #2A9D8F; /* Borda para o item ativo */
+}
+
+.pagination-custom .page-item .page-link:hover {
+    background-color: #2A9D8F; /* Cor de fundo ao passar o mouse */
+    color: #fff; /* Cor do texto ao passar o mouse */
+    border-color: #2A9D8F; /* Borda ao passar o mouse */
+}
+
+.pagination-custom .page-item.disabled .page-link {
+    background-color: #e9ecef; /* Cor de fundo para o item desativado */
+    color: #6c757d; /* Cor do texto para o item desativado */
+    border-color: #e9ecef; /* Borda para o item desativado */
 }

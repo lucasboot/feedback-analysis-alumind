@@ -2,19 +2,19 @@ const recordsPerPage = 10;
 let currentPage = 1;
 
 document.addEventListener('DOMContentLoaded', function () {
+
     $('#feedbackModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget); // Botão que acionou o modal
-        var feedbackId = button.data('feedback-id'); // Extrair o ID do feedback
+        var button = $(event.relatedTarget); 
+        var feedbackId = button.data('feedback-id'); 
 
         // Mostrar o spinner e esconder o conteúdo do modal
         $('#spinner').show();
         $('#feedbackDetails').hide();
 
-        // Use fetch para obter os detalhes do feedback do servidor
         fetch(`/feedback/${feedbackId}`)
             .then(response => response.json())
             .then(data => {
-                // Preencher o modal com os detalhes do feedback
+                
                 var modalBody = document.getElementById('feedbackDetails');
                 modalBody.innerHTML = `
                     <p><strong>ID:</strong> ${data.feedback_id}</p>
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         ).join('')}
                     </ul>
                 `;
-                // Ocultar o spinner e mostrar o conteúdo do modal
+    
                 $('#spinner').hide();
                 $('#feedbackDetails').show();
             })
@@ -38,12 +38,13 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 
-    // Quando o modal é fechado
+
     $('#feedbackModal').on('hidden.bs.modal', function () {
         var modalBody = document.getElementById('feedbackDetails');
-        modalBody.innerHTML = ''; // Limpar o conteúdo do modal
-        $('#spinner').hide(); // Garantir que o spinner esteja oculto
+        modalBody.innerHTML = ''; 
+        $('#spinner').hide(); 
     });
+
     // Inicialização da tabela e gráficos
     changePage(1);
 
@@ -59,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
             values: values,
             type: 'pie',
             marker: {
-                colors: ["#DAA520","#B22222","#00FF7F" ]
+                colors: ["#E9C46A","#E76F51","#2A9D8F" ]
             }
         };
 
@@ -91,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 y: data.map(feature => feature.count),
                 type: 'bar',
                 marker: {
-                    color: '#031C42',
+                    color: '#264653',
                 }
             };
 
@@ -108,7 +109,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-// Função para gerar páginas da tabela
 function generateTablePage(page) {
     const start = (page - 1) * recordsPerPage;
     const end = start + recordsPerPage;

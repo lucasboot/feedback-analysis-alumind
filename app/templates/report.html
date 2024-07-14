@@ -12,19 +12,21 @@
 <body>
     <div class="container">
         <header class="my-4">
-            <h1 class="text-center">Alumind - Relatório</h1>
+            <h1 class="text-center h1-animated">AluMind - Relatório</h1>
         </header>
         
         <section>
             <h2 class="my-4">Tabela de Feedbacks</h2>
             <div class="table-responsive text-center"></div>
                 <table class="table table-striped mx-auto" id="feedbackTable">
-                    <thead class="thead-dark">
+                    <thead class="thead-custom">
                         <tr>
                             <th></th> 
                             <th>ID</th>
                             <th>Feedback</th>
-                            <th class="text-center">Status</th>
+                            <th class="text-center">
+                                Status
+                            </th>
                         </tr>
                     </thead>
                     <tbody id="feedbackTableBody">
@@ -51,19 +53,19 @@
                 </table>
             </div>
             <nav>
-                <ul class="pagination justify-content-center" id="pagination">
+                <ul class="pagination pagination-custom justify-content-center" id="pagination">
                     <!-- Paginação será gerada pelo JavaScript -->
                 </ul>
             </nav>
         </section>
 
         <section>
-            <h2 class="my-4">Distribuição de Sentimentos</h2>
+            <h2 class="my-4 h2-white-bg">Distribuição de Sentimentos</h2>
             <div id="sentimentChart"></div>
         </section>
 
         <section>
-            <h2 class="my-4">10 Features mais pedidas</h2>
+            <h2 class="my-4 h2-white-bg">Top 10 features mais pedidas</h2>
             <div id="featuresChart"></div>
         </section>
     </div>

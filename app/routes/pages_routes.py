@@ -1,19 +1,31 @@
+from errno import errorcode
 from flask import Blueprint, jsonify, render_template
 from app.utils.database import get_db_connection
 from app.services.database_service import get_sentiment_distribution, get_top_features
+
 pages_routes = Blueprint('pages_routes', __name__)
 
 
 @pages_routes.route('/report')
 def report():
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT feedback_id, feedback FROM feedbacks")
-    db_response_list = cursor.fetchall()
-    feedbacks = transform_feedbacks(db_response_list, cursor)
-    cursor.close()
-    conn.close() 
-    return render_template('report.html', feedbacks=feedbacks)
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT feedback_id, feedback FROM feedbacks")
+        db_response_list = cursor.fetchall()
+        
+        if not db_response_list:
+            return render_template('database_empty.html')
+        
+        feedbacks = transform_feedbacks(db_response_list, cursor)
+        
+        return render_template('report.html', feedbacks=feedbacks)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return render_template('database_empty.html')
+    finally:
+        cursor.close()
+        conn.close()
 
 @pages_routes.route('/simulation')
 def simulation():
@@ -64,7 +76,6 @@ def feedback_detail(feedback_id):
     cursor.close()
     conn.close()
     
-    # 4. Preparar e retornar a resposta JSON
     feedback_details = {
         "feedback_id": feedback_id,
         "feedback": feedback_text,
@@ -76,8 +87,7 @@ def feedback_detail(feedback_id):
 
 @pages_routes.route('/sentiment_distribution')
 def sentiment_distribution():
-    # Supondo que get_sentiment_distribution retorne um dicionário com a contagem de sentimentos
-    sentiment_data = get_sentiment_distribution()  # {'POSITIVO': 30, 'NEGATIVO': 15, 'INCONCLUSIVO': 5}
+    sentiment_data = get_sentiment_distribution()  # {'POSITIVO': X, 'NEGATIVO': Y, 'INCONCLUSIVO': Z}
     return jsonify(sentiment_data)
 
 @pages_routes.route('/top-features', methods=['GET'])
