@@ -9,3 +9,5 @@ flask_cors
 python-dotenv
 pytest
 plotly
+celery
+redis

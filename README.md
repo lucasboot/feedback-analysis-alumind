@@ -2,6 +2,8 @@
 
 Python 3.11.1
 MySQL 8.0.21
+download redis
+download mysql workbench
 
 
 https://medium.com/@nohanabil/how-to-deploy-flask-app-using-vercel-885ce034624
