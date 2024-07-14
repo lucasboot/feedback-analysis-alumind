@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.models import Feedback, Sentiment
 from app.utils.database import get_db_connection
-from app.services.feedback_service import analyze_sentiment
+from app.services.feedback_service import analyze_sentiment, classify_spam
 from app.services.database_service import add_sentiment, add_features_reasons, feedback_exists, get_sentiment_distribution, get_top_features, get_top_weekly_features, get_weekly_feedback_summary
 from app.utils.sending_simulation import send_feedbacks_to_route
 
@@ -16,12 +16,17 @@ def create_feedback():
 
     feedback_text = request.json['feedback']
     feedback_id = request.json['id']
-
+    
    
     if (feedback_exists(feedback_id)):
         return jsonify({
         "message": "Este feedback já tem uma análise de sentimento feita"
-        }), 304
+        })
+    if(str(classify_spam(feedback_text)) == 'SPAM'):
+        return jsonify({
+        "message": "Este feedback foi considero um SPAM, logo não pode ser analisado"
+        })
+    
     # Análise do sentimento
     analysis = analyze_sentiment(feedback_text)
     response_json = json.loads(analysis)

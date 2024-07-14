@@ -10,7 +10,6 @@ def feedback_exists(feedback_id):
         
         cursor.execute("SELECT COUNT(*) FROM sentiments WHERE feedback_id = %s", (feedback_id,))
         count = cursor.fetchone()[0]
-        print('Ocorrencias:', count)
         
         return count > 0
     except Exception as e:

@@ -46,35 +46,35 @@ def analyze_sentiment(text):
     try:
         response = chain.run({"text": text})
         try:
-            print(response)
-            print(type(response))
             return str(response)
         except json.JSONDecodeError as e:
                 return {"error": "Failed to decode response"}
     except Exception as e:
             return {"error": "An error occurred during sentiment analysis"}
 
-def generate_email_content(report_data):
-    sentiment_distribution = report_data['sentiment_distribution']
-    top_features = report_data['top_features']
-
-    sentiment_summary = f"Positivos: {sentiment_distribution['POSITIVO']}%, Negativos: {sentiment_distribution['NEGATIVO']}%"
-
-    features_summary = "\n".join(
-        [f"{feature['code']}: {feature['reason']}" for feature in top_features]
-    )
-
-    email_template = f"""
-    Relatório Semanal de Feedbacks:
-
-    Distribuição de Sentimentos:
-    {sentiment_summary}
-
-    Funcionalidades Mais Solicitadas:
-    {features_summary}
+def classify_spam(text):
+    # Definir o prompt para o modelo LLM
+    PROMPT_TEMPLATE_TEXT = """
+    Você é um analista de sentimentos da AluMind, uma startup focada em bem-estar e saúde mental. Sua tarefa é identificar se o seguinte feedback é legítimo.
+    Classifique o seguinte feedback como SPAM ou NÃO É SPAM:
+    
+    Feedback: {text}
     """
-
-    prompt = f"Crie um email amigável e informativo com base no seguinte texto:\n\n{email_template}"
-    chain = LLMChain(llm=llm_gemini, prompt=prompt) 
-    response = chain.run({"text": prompt})
-    return response
+    prompt = PromptTemplate(
+        template=PROMPT_TEMPLATE_TEXT,
+        input_variables=["text"]
+    )
+    chain = LLMChain(llm=llm_gemini, prompt=prompt)
+    
+    try:
+        response = chain.run({"text": text})
+        
+        response = response.strip().upper()
+        if response in ["SPAM", "NÃO É SPAM"]:
+            return response
+        else:
+            return {"error": "Resposta inesperada do modelo"}
+    
+    except Exception as e:
+        # Capturar e retornar qualquer erro ocorrido durante a análise
+        return {"error": f"An error occurred: {str(e)}"}
