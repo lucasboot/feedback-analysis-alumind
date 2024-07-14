@@ -19,6 +19,8 @@
 - [Sobre](#-sobre-o-projeto)
 - [Funcionalidades](#-funcionalidades)
 - [Requisitos técnicos](#-requisitos-tecnicos)
+- [Estrutura da Aplicação](#-estrutura)
+- [Rotas da Aplicação](#-rotas)
 - [Layout](#-layout)
 - [Como executar](#-como-executar-o-projeto)
 - [Tecnologias](#-tecnologias)
@@ -65,8 +67,59 @@ Acesse via Browser | Deploy: Ainda não disponível, há um issue encontrado no 
 
 <a id="-requisitos-tecnicos"></a>
 ### ⚙️ Levantamento de Requisitos e discussões
-Os requisitos desse projeto foram levantados e dividios em artefatos. Como parte do processo de entendimento do case técnico, uma discussão a respeito das tomadas de decisões feitas para este experimento foram feitas no documento. Além disso, também há um esboço da modelagem do banco de dados: [LINK DO ARQUIVO]()
+Os requisitos desse projeto foram levantados e dividios em artefatos. Como parte do processo de entendimento do case técnico, uma discussão a respeito das tomadas de decisões feitas para este experimento foram feitas no documento. Além disso, também há um esboço da modelagem do banco de dados: [LINK DO ARQUIVO](https://github.com/lucasboot/feedback-analysis-alumind/blob/main/docs/AluMind%20Requisitos.pdf)
 
+<a id="-estrutura"></a>
+### ⚙️ Estrutura da Aplicação
+- __init__: criação do app com as configurações do Celery
+- celery_config: método para criação do objeto Celery com suas configurações
+- config: configurações gerais da aplicação, como dados para acesso ao banco MySQL
+- models: criação dos modelos de dados utilizados, para melhor manutenção e escalabilidade do projeto
+- Routes:
+    - feedback_routes (/feedbacks, /feedbacks_ingestion, /run_script e /generate_weekly_report): rotas para ingestão de feedbacks, análise e geração de relatório semanal
+    - pages_routes (/report, /simulation, /feedback/<feedback_id>, /sentiment_distribution e /top-features, /run_weekly_routine): rotas para carregar os templates html, coletar os dados exibidos (tabela e gráficos).
+    
+- Services:
+    - database_service: métodos para manipular os dados do banco MySQL, principalmente os de inserção;
+    - feedback_service: métodos relacionados ao uso de LLM para analisar feedback e classificar como spam.
+- Static:
+    - css: estilos utilizados nas páginas do projeto;
+    - js: adição da lógica da página web de report.
+- Templates:
+    - database_empty: template a ser exibido, caso não tenha dados para gerar algo no /report
+    - report: template principal, pode ser acessado pela rota http://127.0.0.1:5000/report
+    - simulation: página criada para simular o comportamento de pessoas externas ao projeto http://127.0.0.1:5000/simulation.
+- Utils:
+    - database.py: método para conexão com o banco de dados;
+    - send_weekly_report: criação da task Celery para envio do email e geração do conteúdo dele;
+    - sending_simulation: script para simular o envio dos feedbacks por alguém de outro time de desenvolvimento.
+
+
+<a id="-rotas"></a>
+### 🌐 Rotas da Aplicação
+- POST /feedbacks - principal, basta enviar um feedback existente no banco de dados para análise:
+```json
+{
+    "id": "6c9d778b-46f3-450f-b0b5-2654ed9ef648",
+    "feedback": "Estou usando o AluMind há algumas semanas e já notei algumas mudanças. Ainda não tenho certeza se os resultados são consistentes."
+}
+```
+
+- POST /feedbacks_ingestion - rota secundária para inserir novos feedbacks no banco e simular a alimentação por outra equipe de desenvolvimento
+```json
+[
+  {
+    "feedback": "Estou usando o AluMind há algumas semanas e já notei algumas mudanças. Ainda não tenho certeza se os resultados são consistentes."
+  },
+  {
+    "feedback": "O suporte ao cliente demorou muito para responder minha solicitação. Isso é inaceitável."
+  },
+  {
+    "feedback": "O aplicativo oferece muitos recursos úteis, mas não tenho certeza se todos eles são aplicáveis ao meu caso específico. Preciso de mais tempo para avaliar."
+  }
+]
+```
+     
 
 <a id="-layout"></a>
 ## 🎨 Layout
@@ -80,6 +133,7 @@ Os requisitos desse projeto foram levantados e dividios em artefatos. Como parte
   <img alt="Home Page - imagem 04" title="Nome do Projeto" src="./assets/foto4.png" width="400px">
   <div style="grid-column: span 2; display: flex; justify-content: center;">
     <img alt="Home Page - imagem 05" title="Nome do Projeto" src="./assets/foto5.png" width="400px">
+    <img alt="Home Page - imagem 06" title="Nome do Projeto" src="./assets/foto6.png" width="400px">
   </div>
 </p>
 
@@ -137,6 +191,7 @@ $ python app.py
 - ✅ Agora que os feedbacks estão armazenados no banco, para enviá-los para a API analisar, basta acessar a página (http://127.0.0.1:5000/simulation), que só existe no escopo desse protótipo para simular o envio deles por outra equipe de desenvolvimento e clique no botão "Enviar feedbacks" e aguarde o processamento de todos (Essa etapa pode demorar um tempo considerável, dependendo da quantidade de feedbacks adicionados na /feedbacks_ingestion)
 - ✅ Após finalizar a etapa anterior, já é possível acessar a página de report (http://127.0.0.1:5000/report), caso você tente acessar antes de adicionar feedbacks/criar o banco, uma página sinalizando isso é exibida no lugar
 - ✅ A aplicação está configurada para enviar o relatório semanal de feedbacks toda sexta-feira às 17h, mas você pode testar a qualidade do email gerado (que também é gerado com LLMs!) substituindo no [ARQUIVO](https://github.com/lucasboot/feedback-analysis-alumind/blob/main/app/__init__.py) o parâmetro schedule por 'schedule': crontab(minute='*') para que o email seja enviado a cada 1 minuto. Não esqueça de adicionar o seu email como destinatário para poder recebê-lo na lista "to_emails" do [ARQUIVO](https://github.com/lucasboot/feedback-analysis-alumind/blob/main/app/utils/send_weekly_report.py)
+- ✅ Uma outra forma de testar o envio de email, é acessar a rota /simulation e clicar no botão "Forçar envio do email semanal"
 - 🔴 O Redis Cache utilizado para administrar o uso da biblioteca Celery foi criado e está com sua configuração inserida no próprio código, caso o seu uso esteja indisponível, crie um gratuitamente [Link](https://app.redislabs.com/) e edite as variáveis dele no [ARQUIVO](https://github.com/lucasboot/feedback-analysis-alumind/blob/main/app/config.py)
 
 
@@ -164,11 +219,12 @@ As seguintes ferramentas/bibliotecas foram usadas na construção do projeto:
 <a id="-melhorias"></a>
 ## 🚀 Melhorias Futuras
 
-1. Faça um **fork** do projeto.
-2. Crie uma nova branch com as suas alterações: `git checkout -b my-feature`
-3. Salve as alterações e crie uma mensagem de commit contando o que você fez: `git commit -m "feature: My new feature"`
-4. Envie as suas alterações: `git push origin my-feature`
-
+1. Concluir os testes dos modulos da aplicação, falta aumentar a cobertura e criar testes para alguns scripts;
+2. Adição e melhoria dos logs da aplicação para facilitar a resolução de bugs;
+3. Revisar os comentários do código;
+4. Analisar a necessidade da criação de View no banco de dados para agilizar alguma consulta;
+5. Refatorar a lógica de carregamento da página /report para iniciar a consulta ao banco de dados só depois de renderizar a página;
+6. Criaçao do Swagger da aplicação.
 
 ---
 <a id="-contribuir"></a>
@@ -183,7 +239,7 @@ As seguintes ferramentas/bibliotecas foram usadas na construção do projeto:
 ---
 
 <a id="-autor"></a>
-## 🧙‍♂️ <h2 id="#autor">Autor</h2>
+## 🧙‍♂️ Autor
 
 Feito por Lucas Alves👋🏽 [Entre em contato!](https://www.linkedin.com/in/lucasfva/)
 

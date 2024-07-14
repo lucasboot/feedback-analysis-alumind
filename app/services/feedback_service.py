@@ -2,9 +2,13 @@ from langchain_google_genai import GoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 import json
+import logging
 
 import os
 
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    handlers=[logging.StreamHandler()])
 
 PROMPT_TEMPLATE_TEXT = """
 Você é um analista de sentimentos da AluMind, uma startup focada em bem-estar e saúde mental. Sua tarefa é analisar os feedbacks dos usuários para determinar o sentimento e identificar possíveis melhorias. Os sentimentos possíveis são: POSITIVO, NEGATIVO ou INCONCLUSIVO.
@@ -46,10 +50,13 @@ def analyze_sentiment(text):
     try:
         response = chain.run({"text": text})
         try:
+            logging.info("Análise de sentimento realizada com sucesso.")
             return str(response)
         except json.JSONDecodeError as e:
+                logging.error("Falha na decodificação da resposta")
                 return {"error": "Failed to decode response"}
     except Exception as e:
+            logging.error("Erro na análise de sentimento")
             return {"error": "An error occurred during sentiment analysis"}
 
 def classify_spam(text):
@@ -71,10 +78,12 @@ def classify_spam(text):
         
         response = response.strip().upper()
         if response in ["SPAM", "NÃO É SPAM"]:
+            logging.info("Classficiação de SPAM ou NÃO feita com sucesso")
             return response
         else:
+            logging.error("Resposta inesperada do modelo")
             return {"error": "Resposta inesperada do modelo"}
     
     except Exception as e:
-        # Capturar e retornar qualquer erro ocorrido durante a análise
+        logging.error("Erro na classificação em SPAM ou NÃO")
         return {"error": f"An error occurred: {str(e)}"}

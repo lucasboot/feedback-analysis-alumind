@@ -10,4 +10,4 @@ pytest
 plotly
 celery
 redis
-spamassassin_client 
+logging

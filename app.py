@@ -10,13 +10,13 @@ def start_celery_beat():
     return subprocess.Popen(['celery', '-A', 'run.celery', 'beat', '--loglevel=info'])
 
 if __name__ == '__main__':
-    print("Starting Flask server...")
+    print("Inicializando Flask server...")
     flask_process = start_flask()
 
-    print("Starting Celery worker...")
+    print("Inicializando Celery worker...")
     worker_process = start_celery_worker()
 
-    print("Starting Celery beat...")
+    print("Inicializando Celery beat...")
     beat_process = start_celery_beat()
 
     flask_process.wait()

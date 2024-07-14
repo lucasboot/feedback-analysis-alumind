@@ -10,7 +10,7 @@
 <body>
     <h1 class="h1-animated">Simulation Page</h1>
     <button id="sendFeedbacks">Enviar Feedbacks</button>
-    <button id="weeklyRoutine">Rotina semanal</button>
+    <button id="weeklyRoutine">Forçar envio do email semanal</button>
 
     <script>
         document.getElementById('sendFeedbacks').addEventListener('click', function() {
@@ -26,8 +26,18 @@
             });
         });
 
+        
         document.getElementById('weeklyRoutine').addEventListener('click', function() {
-            alert('Rotina semanal ativada!');
+            fetch('/run_weekly_routine', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         });
     </script>
 </body>

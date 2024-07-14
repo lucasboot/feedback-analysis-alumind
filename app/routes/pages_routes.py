@@ -2,6 +2,7 @@ from errno import errorcode
 from flask import Blueprint, jsonify, render_template
 from app.utils.database import get_db_connection
 from app.services.database_service import get_sentiment_distribution, get_top_features
+from app.utils.send_weekly_report import send_weekly_report_email  
 
 pages_routes = Blueprint('pages_routes', __name__)
 
@@ -98,6 +99,15 @@ def top_features():
         return jsonify(features)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+# Rota apenas para forçar o envio de email, fora do schedule definido
+@pages_routes.route('/run_weekly_routine', methods=['POST'])
+def run_weekly_routine():
+    try:
+        send_weekly_report_email()
+        return jsonify({'message': 'Rotina semanal executada com sucesso!'})
+    except Exception as e:
+        return jsonify({'message': f'Erro ao executar a rotina semanal: {str(e)}'}), 500
 
 def transform_feedbacks(feedbacks, cursor):
     transformed_feedbacks = []
@@ -114,3 +124,5 @@ def transform_feedbacks(feedbacks, cursor):
         }
         transformed_feedbacks.append(transformed_feedback)
     return transformed_feedbacks
+
+
