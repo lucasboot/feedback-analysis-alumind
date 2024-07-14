@@ -92,9 +92,7 @@ def generate_weekly_report():
     } 
     if 'INCONCLUSIVO' in sentiment_percentage:
         del sentiment_percentage['INCONCLUSIVO']
-
-
-
+        
     report = {
         'sentiment_distribution': sentiment_percentage,
         'top_features': top_features

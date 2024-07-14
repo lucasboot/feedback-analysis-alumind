@@ -28,20 +28,21 @@ Feedback: {text}
 
 
 
-prompt = PromptTemplate(
-        template=PROMPT_TEMPLATE_TEXT,
-        input_variables=["text"]
-    )
 llm_gemini = GoogleGenerativeAI(
     model="gemini-1.0-pro",
     max_output_tokens=1024,
     google_api_key=os.environ.get('GOOGLE_AI_API_KEY'),
-    temperature=0.0 # Temperatura baixa para a criação de codes ser mais precisa
+    temperature=0.1 # Temperatura baixa para a criação de codes ser mais precisa
 )
-chain = LLMChain(llm=llm_gemini, prompt=prompt)    
+ 
 
 
 def analyze_sentiment(text):
+    prompt = PromptTemplate(
+        template=PROMPT_TEMPLATE_TEXT,
+        input_variables=["text"]
+    )
+    chain = LLMChain(llm=llm_gemini, prompt=prompt)   
     try:
         response = chain.run({"text": text})
         try:
@@ -53,3 +54,27 @@ def analyze_sentiment(text):
     except Exception as e:
             return {"error": "An error occurred during sentiment analysis"}
 
+def generate_email_content(report_data):
+    sentiment_distribution = report_data['sentiment_distribution']
+    top_features = report_data['top_features']
+
+    sentiment_summary = f"Positivos: {sentiment_distribution['POSITIVO']}%, Negativos: {sentiment_distribution['NEGATIVO']}%"
+
+    features_summary = "\n".join(
+        [f"{feature['code']}: {feature['reason']}" for feature in top_features]
+    )
+
+    email_template = f"""
+    Relatório Semanal de Feedbacks:
+
+    Distribuição de Sentimentos:
+    {sentiment_summary}
+
+    Funcionalidades Mais Solicitadas:
+    {features_summary}
+    """
+
+    prompt = f"Crie um email amigável e informativo com base no seguinte texto:\n\n{email_template}"
+    chain = LLMChain(llm=llm_gemini, prompt=prompt) 
+    response = chain.run({"text": prompt})
+    return response
