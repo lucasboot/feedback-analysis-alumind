@@ -12,8 +12,6 @@ def send_feedbacks_to_route():
         with app.test_request_context():
             for feedback in feedbacks:
                 feedback_id, feedback_text = feedback
-                #print('id: ', feedback_id)
-                #print('feedback:', feedback_text)
                 response = app.test_client().post('/feedbacks', json={
                     'id': feedback_id,
                     'feedback': feedback_text

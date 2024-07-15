@@ -21,7 +21,7 @@ def create_feedback():
     if (feedback_exists(feedback_id)):
         return jsonify({
         "message": "Este feedback já tem uma análise de sentimento feita"
-        })
+        }), 304
     if(str(classify_spam(feedback_text)) == 'SPAM'):
         return jsonify({
         "message": "Este feedback foi considero um SPAM, logo não pode ser analisado"

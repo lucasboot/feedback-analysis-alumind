@@ -6,14 +6,41 @@
     <title>Simulation Page</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <style>
+        /* Spinner CSS */
+        .spinner {
+            display: none; 
+            position: fixed;
+            left: 10%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 16px solid #f3f3f3; 
+            border-top: 16px solid #3498db; 
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
     <h1 class="h1-animated">Simulation Page</h1>
     <button id="sendFeedbacks">Enviar Feedbacks</button>
     <button id="weeklyRoutine">Forçar envio do email semanal</button>
 
+    <!-- Spinner HTML -->
+    <div id="spinner" class="spinner"></div>
+
     <script>
         document.getElementById('sendFeedbacks').addEventListener('click', function() {
+            const spinner = document.getElementById('spinner');
+            spinner.style.display = 'block'; 
+
             fetch('/run_script', {
                 method: 'POST'
             })
@@ -23,10 +50,12 @@
             })
             .catch(error => {
                 console.error('Error:', error);
+            })
+            .finally(() => {
+                spinner.style.display = 'none'; // Hide the spinner
             });
         });
 
-        
         document.getElementById('weeklyRoutine').addEventListener('click', function() {
             fetch('/run_weekly_routine', {
                 method: 'POST'

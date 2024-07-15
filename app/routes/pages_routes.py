@@ -19,14 +19,16 @@ def report():
             return render_template('database_empty.html')
         
         feedbacks = transform_feedbacks(db_response_list, cursor)
-        
+        cursor.close()
+        conn.close()
         return render_template('report.html', feedbacks=feedbacks)
+
     except Exception as e:
         print(f"An error occurred: {e}")
         return render_template('database_empty.html')
-    finally:
-        cursor.close()
-        conn.close()
+
+        
+            
 
 @pages_routes.route('/simulation')
 def simulation():

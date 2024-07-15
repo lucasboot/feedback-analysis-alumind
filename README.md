@@ -193,6 +193,7 @@ $ python app.py
 - ✅ A aplicação está configurada para enviar o relatório semanal de feedbacks toda sexta-feira às 17h, mas você pode testar a qualidade do email gerado (que também é gerado com LLMs!) substituindo no [ARQUIVO](https://github.com/lucasboot/feedback-analysis-alumind/blob/main/app/__init__.py) o parâmetro schedule por 'schedule': crontab(minute='*') para que o email seja enviado a cada 1 minuto. Não esqueça de adicionar o seu email como destinatário para poder recebê-lo na lista "to_emails" do [ARQUIVO](https://github.com/lucasboot/feedback-analysis-alumind/blob/main/app/utils/send_weekly_report.py)
 - ✅ Uma outra forma de testar o envio de email, é acessar a rota /simulation e clicar no botão "Forçar envio do email semanal"
 - 🔴 O Redis Cache utilizado para administrar o uso da biblioteca Celery foi criado e está com sua configuração inserida no próprio código, caso o seu uso esteja indisponível, crie um gratuitamente [Link](https://app.redislabs.com/) e edite as variáveis dele no [ARQUIVO](https://github.com/lucasboot/feedback-analysis-alumind/blob/main/app/config.py)
+- 🔴 A quota de uso do Gemini gratuito pode chegar em exaustão enquanto os feedbacks são analisados, mas isso não cancela sua execução, enquanto na página /simulation, aguarde um alert surgir para sinalizar o fim do processamento.
 
 
 <a id="-tecnologias"></a>
@@ -224,7 +225,8 @@ As seguintes ferramentas/bibliotecas foram usadas na construção do projeto:
 3. Revisar os comentários do código;
 4. Analisar a necessidade da criação de View no banco de dados para agilizar alguma consulta;
 5. Refatorar a lógica de carregamento da página /report para iniciar a consulta ao banco de dados só depois de renderizar a página;
-6. Criaçao do Swagger da aplicação.
+6. Adição do campo de timestamp nos feedbacks para o relatório semanal levar a data em consideração; 
+7. Criaçao do Swagger da aplicação.
 
 ---
 <a id="-contribuir"></a>
