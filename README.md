@@ -184,7 +184,7 @@ $ python app.py
     - MYSQL_DB=alumind_db
     - GOOGLE_AI_API_KEY=sua_chave_da_google_api
     - 🔴 Você pode criar uma chave da Google API gratuitamente [AQUI](https://aistudio.google.com/app/apikey)
-    - 🔴 Se você ainda lê este trecho, eu deixei os valores atuais desse arquivo para um banco MySQL hospedado na Azure no final deste README, porém é necessário adicionar o seu IP na lista de permissões do firewall, sinta-se livre para me enviar um email com seu IP para que eu possa adicionar.
+    - 🔴 Se você gostaria de utilizar o banco hospedado na Azure, sinta-se livre para me enviar um email com seu IP de conexão, pois é necessário adicionar o seu IP na lista de permissões do firewall.
 
 - ✅ No MySQL Workbench, execute o script de [criação do banco](https://github.com/lucasboot/feedback-analysis-alumind/blob/main/mysql_db/creation.sql)
 - ✅ Com a aplicação em execução, alimente o banco de dados pela rota *POST* http://127.0.0.1:5000/feedbacks_ingestion  adicionando um JSON no body em formato de lista, como no arquivo: [feedbacks para inserção](https://github.com/lucasboot/feedback-analysis-alumind/blob/main/mysql_db/feedbacks.json)
