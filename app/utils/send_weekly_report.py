@@ -67,8 +67,8 @@ def markdown_to_html(text):
 def send_email(subject, body, to_emails):
     smtp_server = 'smtp.office365.com'
     smtp_port = 587
-    smtp_username = 'validate_genAI@hotmail.com'
-    smtp_password = 'Pocteste1@'
+    smtp_username = ''
+    smtp_password = ''
 
     msg = MIMEText(body, 'html')
     msg['Subject'] = subject
